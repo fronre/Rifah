@@ -24,6 +24,22 @@ model User {
   role Role  @default(USER)
   username String @unique
   password String
+  sleepData SleepData[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SleepData {
+  id String @id @default(cuid())
+  //Part1
+  date String //YYYY-MM-DD
+  sleep_data Json
+  //Part2
+  sleep_experience Json?
+  //Part3
+  factors Json?
+  userId  String
+  user User @relation(fields: [userId],references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
