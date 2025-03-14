@@ -27,3 +27,60 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
+
+model SleepData {
+  id String @id @default(cuid())
+  bedtime String
+  wake_up_time String
+  total_sleep_duration String
+  times_woken_up Int
+  total_wake_duration String
+  sleep_latency String
+  wake_up_feeling String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SleepExperience {
+  id String @id @default(cuid())
+  sleep_depth String
+  had_dreams Boolean
+  dream_type String?
+  body_movements String
+  temperature_feeling String
+  prayed_isha Boolean
+  read_quran Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Factors {
+  id String @id @default(cuid())
+  caffeine_intake Json
+  screen_time_before_bed Json
+  noise_disruptions Boolean
+  stress_level String
+  room_temperature String
+  pre_sleep_activities String[]
+  recommended_sleep_time String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Azkar {
+  id String @id @default(cuid())
+  type String
+  text String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model IslamicAdvice {
+  id String @id @default(cuid())
+  advice_text String
+  audio_link String?
+  sleepDataId String
+  sleepData SleepData @relation(fields: [sleepDataId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -12,7 +12,7 @@ export const register = async (req, res) => {
             msg: "Invalid data",
         });
     } else {
-        let user = await prisma.user.findUnique(({ where: { username: validatedData.username } }));
+        let user = await prisma.user.findUnique({ where: { username: validatedData.username } });
         if (user) {
             res.status(400).json({
                 ok: false,
@@ -23,7 +23,7 @@ export const register = async (req, res) => {
                 data: {
                     name: validatedData.name,
                     username: validatedData.username,
-                    password: await hashPasswrod(validatedData.password)
+                    password: await hashPassworod(validatedData.password)
                 },
                 select: {
                     id: true,
