@@ -19,27 +19,52 @@ enum Role {
 }
 
 model User {
-  id String @id @default(cuid())
-  name String
-  role Role  @default(USER)
-  username String @unique
-  password String
+  id        String      @id @default(cuid())
+  name      String
+  role      Role        @default(USER)
+  age       Int
+  username  String      @unique
+  password  String
   sleepData SleepData[]
+  agenda    Agenda[]
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+}
+
+model SleepData {
+  id               String        @id @default(cuid())
+  //Part1
+  date             String //YYYY-MM-DD
+  sleep_data       Json
+  //Part2
+  sleep_experience Json?
+  //Part3
+  factors          Json?
+  userId           String
+  user             User          @relation(fields: [userId], references: [id])
+  dailyReport      DailyReport[]
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Agenda {
+  id        String   @id @default(cuid())
+  userId    String
+  date      String
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model SleepData {
-  id String @id @default(cuid())
-  //Part1
-  date String //YYYY-MM-DD
-  sleep_data Json
-  //Part2
-  sleep_experience Json?
-  //Part3
-  factors Json?
-  userId  String
-  user User @relation(fields: [userId],references: [id])
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model DailyReport {
+  id                   String    @id @default(cuid())
+  summary              String
+  rating               Int
+  total_sleep_duration String
+  sleep_problems       String[]
+  recommendations      String[]
+  sleepDataId          String
+  sleepData            SleepData @relation(fields: [sleepDataId], references: [id])
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
 }

@@ -23,7 +23,8 @@ export const register = async (req, res) => {
                 data: {
                     name: validatedData.name,
                     username: validatedData.username,
-                    password: await hashPasswrod(validatedData.password)
+                    password: await hashPasswrod(validatedData.password),
+                    age : validatedData.age
                 },
                 select: {
                     id: true,

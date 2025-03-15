@@ -1,6 +1,6 @@
-import prisma from "../config/db";
-import zodValidation from "../utils/zodValidation"
-import { factorsSchema, initializeSleepDataSchema } from "../validation/sleep"
+import prisma from "../config/db.js";
+import zodValidation from "../utils/zodValidation.js"
+import { factorsSchema, initializeSleepDataSchema ,sleepExperienceSchema} from "../validation/sleep.js"
 
 export const initializeSleepData = async (req, res) => {
     const validatedData = zodValidation(req.body, initializeSleepDataSchema);
@@ -22,6 +22,12 @@ export const initializeSleepData = async (req, res) => {
                     id: true
                 }
             });
+            await prisma.agenda.create({
+                data : {
+                    date : date,
+                    userId : req.userId
+                }
+            });
             res.status(201).json({
                 ok: true,
                 id: sleepData.id
@@ -35,7 +41,7 @@ export const initializeSleepData = async (req, res) => {
     }
 }
 export const setSleepExperience = async (req, res) => {
-    const validatedData = zodValidation(req.body, setSleepExperience);
+    const validatedData = zodValidation(req.body, sleepExperienceSchema);
     if (!validatedData) {
         res.status(400).json({
             ok: false,
@@ -54,7 +60,7 @@ export const setSleepExperience = async (req, res) => {
                     id: true
                 }
             });
-            res.status(204).json({
+            res.status(200).json({
                 ok: true,
                 id: sleepData.id
             });
@@ -87,7 +93,7 @@ export const setFactors = async (req, res) => {
                     id: true
                 }
             });
-            res.status(204).json({
+            res.status(200).json({
                 ok: true,
                 id: sleepData.id
             });
@@ -97,5 +103,24 @@ export const setFactors = async (req, res) => {
                 msg: "Something went wrong"
             });
         }
+    }
+}
+
+export const getSleepData = async (req , res) => {
+    const data = await prisma.sleepData.findUnique({
+        where : {
+            id : req.params.id
+        },
+    });
+    if(!data){
+        res.status(404).json({
+            ok : false,
+            msg : "No data found"
+        });
+    }else{
+        res.status(200).json({
+            ok : true,
+            data : data
+        });
     }
 }

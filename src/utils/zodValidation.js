@@ -3,6 +3,7 @@ const zodValidation = (data,schema) => {
         const validatedData = schema.parse(data);
         return validatedData;
     }catch(err){
+        console.log(err);
         return null;
     }
 }

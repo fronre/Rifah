@@ -1,6 +1,6 @@
 import { Router } from "express";
-import authenticatedMiddleware from "../middlewares/authenticated";
-import { initializeSleepData, setFactors, setSleepExperience } from "../controllers/sleepDataController";
+import authenticatedMiddleware from "../middlewares/authenticated.js";
+import { initializeSleepData, setFactors, setSleepExperience ,getSleepData} from "../controllers/sleepDataController.js";
 
 const sleepRouter = Router();
 
@@ -10,3 +10,8 @@ sleepRouter.post('/',authenticatedMiddleware,initializeSleepData);
 sleepRouter.put('/experience/:id',authenticatedMiddleware,setSleepExperience);
 //set sleep factors :
 sleepRouter.put('/factors/:id',authenticatedMiddleware,setFactors);
+//get specific sleep data :
+sleepRouter.get('/:id',authenticatedMiddleware,getSleepData)
+
+
+export default sleepRouter;
