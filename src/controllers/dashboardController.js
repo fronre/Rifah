@@ -39,7 +39,7 @@ export const getUserRanking = async (req, res) => {
         });
 
         // البحث عن ترتيب المستخدم الحالي في القائمة
-        const userIndex = users.findIndex(user => user.id === req.user.id);
+        const userIndex = users.findIndex(user => user.id === req.userid);
         if (userIndex === -1) {
             return res.status(404).json({ ok: false, msg: "User not found in leaderboard" });
         }
@@ -59,7 +59,7 @@ export const updatePoints = async (req, res) => {
     try {
         const { points } = req.body;
         const updatedUser = await prisma.user.update({
-            where: { id: req.user.id },
+            where: { id: req.userid },
             data: { points: { increment: points } }, // زيادة النقاط
         });
 
