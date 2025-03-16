@@ -4,7 +4,7 @@ import prisma from "../config/db.js";
 export const getAvailableDates = async (req, res) => {
     try {
         const dates = await prisma.sleepData.findMany({
-            where: { userId: req.user.id }, // بيانات المستخدم الحالي فقط
+            where: { userId: req.userId }, // بيانات المستخدم الحالي فقط
             select: { id: true, date: true },
             orderBy: { date: "desc" },
         });
@@ -19,7 +19,7 @@ export const getDailyReport = async (req, res) => {
     try {
         const { dateId } = req.params;
         const report = await prisma.dailyReport.findFirst({
-            where: { sleepDataId: dateId, sleepData: { userId: req.user.id } }, // التحقق من أن التقرير يخص المستخدم الحالي
+            where: { sleepDataId: dateId, sleepData: { userId: req.userId } }, // التحقق من أن التقرير يخص المستخدم الحالي
         });
         if (!report) {
             return res.status(404).json({ ok: false, msg: "Report not found" });
@@ -39,7 +39,7 @@ export const getUserRanking = async (req, res) => {
         });
 
         // البحث عن ترتيب المستخدم الحالي في القائمة
-        const userIndex = users.findIndex(user => user.id === req.userid);
+        const userIndex = users.findIndex(user => user.id === req.userId);
         if (userIndex === -1) {
             return res.status(404).json({ ok: false, msg: "User not found in leaderboard" });
         }
@@ -59,7 +59,7 @@ export const updatePoints = async (req, res) => {
     try {
         const { points } = req.body;
         const updatedUser = await prisma.user.update({
-            where: { id: req.userid },
+            where: { id: req.userId },
             data: { points: { increment: points } }, // زيادة النقاط
         });
 
