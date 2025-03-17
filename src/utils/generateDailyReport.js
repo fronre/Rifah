@@ -33,4 +33,5 @@ const generateAiDailyReport = async (jsonData) => {
 };
 
 
+
 export default generateAiDailyReport;
