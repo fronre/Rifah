@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -19,26 +13,26 @@ enum Role {
 }
 
 model User {
-  id        String      @id @default(cuid())
-  name      String
-  role      Role        @default(USER)
-  age       Int
-  username  String      @unique
-  password  String
-  sleepData SleepData[]
-  agenda    Agenda[]
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  id             String      @id @default(cuid())
+  name           String
+  username       String      @unique
+  password       String
+  role           Role        @default(USER)
+  age            Int
+  totalPoints    Float       @default(0)  // مجموع النقاط
+  consecutiveDays Int        @default(0)  // عداد الأيام المتتالية
+  sleepData      SleepData[]
+  agenda         Agenda[]
+  activities     Activity[]
+  createdAt      DateTime    @default(now())
+  updatedAt      DateTime    @updatedAt
 }
 
 model SleepData {
   id               String        @id @default(cuid())
-  //Part1
-  date             String //YYYY-MM-DD
+  date             String // YYYY-MM-DD
   sleep_data       Json
-  //Part2
   sleep_experience Json?
-  //Part3
   factors          Json?
   userId           String
   user             User          @relation(fields: [userId], references: [id])
@@ -67,4 +61,12 @@ model DailyReport {
   sleepData            SleepData @relation(fields: [sleepDataId], references: [id])
   createdAt            DateTime  @default(now())
   updatedAt            DateTime  @updatedAt
+}
+
+model Activity {
+  id          String  @id @default(cuid())
+  userId      String
+  date        DateTime @default(now()) // اليوم الذي تم تسجيل النشاط فيه
+  activityType String // نوع النشاط (fajr, dhuhr, adhkar, sleep, ...)
+  user        User    @relation(fields: [userId], references: [id])
 }
