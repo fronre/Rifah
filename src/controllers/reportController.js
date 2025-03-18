@@ -40,3 +40,21 @@ export const generateDailyReport = async (req , res ) => {
         }
     }
 }
+export const getReport = async (req , res) => {
+    const report = await prisma.dailyReport.findUnique({
+        where : {
+            id : req.params.id,
+        }
+    });
+    if(!report){
+        res.status(404).json({
+            ok : false,
+            data : "No report found"
+        });
+    }else{
+        res.status(200).json({
+            ok : true,
+            data : report
+        });
+    }
+}

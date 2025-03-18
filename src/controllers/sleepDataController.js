@@ -10,7 +10,19 @@ export const initializeSleepData = async (req, res) => {
             msg: "Invalid data",
         });
     } else {
-        const date = new Date().toISOString().split("T")[0];
+        const formatter = new Intl.DateTimeFormat('ar-DZ',{
+            weekday: 'long',
+            day: 'numeric',
+            month: 'long',
+            year: 'numeric'
+        });
+        const data = formatter.format(new Date()).replace('،',"").split(" ");
+        const date = {
+            weekday : data[0],
+            day : data[1],
+            month : data[2],
+            year : data[3],
+        }
         try {
             const sleepData = await prisma.sleepData.create({
                 data: {

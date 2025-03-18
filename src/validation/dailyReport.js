@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-
 export const dailyReportSchema = z.object({
     summary: z.string().describe("تحليل شامل لجودة النوم بناءً على البيانات المقدمة، يشمل تفاصيل مثل مدة النوم، مدى استمراريته، عدد مرات الاستيقاظ، وأي عوامل خارجية أثرت عليه."),
     
@@ -12,3 +11,5 @@ export const dailyReportSchema = z.object({
     
     recommendations: z.array(z.string()).describe("قائمة مفصلة من التوصيات العلمية والممارسات الصحية لتحسين جودة النوم، تتضمن نصائح حول تقليل التوتر، تحسين بيئة النوم، تقليل التعرض للضوء الأزرق، وتعديل عادات ما قبل النوم.")
 });
+
+
