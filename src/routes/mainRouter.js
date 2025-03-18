@@ -3,28 +3,37 @@ import userRoute from "./userRouter.js";
 import sleepRouter from "./sleepRouter.js";
 import reportRouter from "./reportRouter.js";
 import articlesRouter from "./articlesRouter.js";
-
+import adhkarRouter from "./adhkarRouter.js"; 
 const mainRouter = Router();
 
-//user router :
+// user router :
 mainRouter.use('/user', (req, res, next) => {
   console.log('User router accessed');
   next();
 }, userRoute);
-//sleep data router ;
+
+// sleep data router :
 mainRouter.use('/sleep', (req, res, next) => {
   console.log('Sleep router accessed');
   next();
 }, sleepRouter);
-//report router :
+
+// report router :
 mainRouter.use('/report', (req, res, next) => {
   console.log('Report router accessed');
   next();
 }, reportRouter);
-//articles router :
+
+// articles router :
 mainRouter.use('/articles', (req, res, next) => {
-    console.log('Articles router accessed');
-    next();
-  }, articlesRouter);
+  console.log('Articles router accessed');
+  next();
+}, articlesRouter);
+
+//  adhkar router :
+mainRouter.use('/adhkar', (req, res, next) => {
+  console.log('Adhkar router accessed');
+  next();
+}, adhkarRouter);
 
 export default mainRouter;
